@@ -36,6 +36,14 @@ using tier4_autoware_utils::inverseTransformPoint;
 
 namespace behavior_path_planner
 {
+
+#define debug(var)  do{std::cerr << __func__ << ": " << __LINE__ << ", " << #var << " : ";view(var);}while(0)
+template<typename T> void view(T e){std::cerr << e << std::endl;}
+template<typename T> void view(const std::vector<T>& v){for(const auto& e : v){ std::cerr << e << " "; } std::cerr << std::endl;}
+template<typename T> void view(const std::vector<std::vector<T> >& vv){ for(const auto& v : vv){ view(v); } }
+#define line() {std::cerr << "(" << __FILE__ <<  ") " << __func__ << ": " << __LINE__ << std::endl; }
+
+
 StartPlannerModule::StartPlannerModule(
   const std::string & name, rclcpp::Node & node,
   const std::shared_ptr<StartPlannerParameters> & parameters,
@@ -196,12 +204,14 @@ BehaviorModuleOutput StartPlannerModule::plan()
       incrementPathIndex();
     }
     path = getCurrentPath();
+    debug(path.points.size());
   } else {
     path = status_.backward_path;
   }
 
   const auto target_drivable_lanes = utils::getNonOverlappingExpandedLanes(
     path, generateDrivableLanes(path), planner_data_->drivable_area_expansion_parameters);
+  debug(path.points.size());
 
   DrivableAreaInfo current_drivable_area_info;
   current_drivable_area_info.drivable_lanes = target_drivable_lanes;
@@ -253,7 +263,9 @@ BehaviorModuleOutput StartPlannerModule::plan()
       SteeringFactor::START_PLANNER, steering_factor_direction, SteeringFactor::TURNING, "");
   }
 
-  setDebugData();
+  setDebugData(); 
+
+  debug(output.path->points.size());
 
   return output;
 }
