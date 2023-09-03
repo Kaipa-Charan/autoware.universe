@@ -46,8 +46,6 @@ public:
 
 private:
   std::shared_ptr<GoalPlannerParameters> parameters_;
-
-  bool left_side_parking_;
 };
 
 }  // namespace behavior_path_planner

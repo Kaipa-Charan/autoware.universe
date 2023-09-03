@@ -52,9 +52,9 @@ PredictedObjects filterObjectsByLateralDistance(
   const double distance_thresh, const bool filter_inside);
 
 bool isAllowedGoalModification(
-  const std::shared_ptr<RouteHandler> & route_handler, const bool left_side_parking);
+  const std::shared_ptr<RouteHandler> & route_handler);
 bool checkOriginalGoalIsInShoulder(
-  const std::shared_ptr<RouteHandler> & route_handler, const bool left_side_parking);
+  const std::shared_ptr<RouteHandler> & route_handler);
 
 // debug
 MarkerArray createPullOverAreaMarkerArray(
