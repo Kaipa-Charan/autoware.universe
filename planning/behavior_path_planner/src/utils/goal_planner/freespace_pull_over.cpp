@@ -64,7 +64,8 @@ boost::optional<PullOverPath> FreespacePullOver::plan(const Pose & goal_pose)
     planner_data_, parameters_.backward_goal_search_length, parameters_.forward_goal_search_length,
     /*forward_only_in_route*/ false);
   const auto pull_over_lanes =
-    goal_planner_utils::getPullOverLanes(*(planner_data_->route_handler), left_side_parking_);
+    goal_planner_utils::getPullOverLanes(*(planner_data_->route_handler), left_side_parking_,
+    parameters_.backward_goal_search_length, parameters_.forward_goal_search_length);
   if (road_lanes.empty() || pull_over_lanes.empty()) {
     return {};
   }
