@@ -121,7 +121,8 @@ public:
    * @return vector of lanelet having same direction if true
    */
   boost::optional<lanelet::ConstLanelet> getRightLanelet(
-    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false) const;
+    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false,
+    const bool get_shoulder_lane = false) const;
 
   /**
    * @brief Check if same-direction lane is available at the left side of the lanelet
@@ -131,7 +132,8 @@ public:
    * @return vector of lanelet having same direction if true
    */
   boost::optional<lanelet::ConstLanelet> getLeftLanelet(
-    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false) const;
+    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false,
+    const bool get_shoulder_lane = false) const;
   lanelet::ConstLanelets getNextLanelets(const lanelet::ConstLanelet & lanelet) const;
   lanelet::ConstLanelets getPreviousLanelets(const lanelet::ConstLanelet & lanelet) const;
 
@@ -194,7 +196,8 @@ public:
    * @return vector of lanelet having same direction if true
    */
   lanelet::ConstLanelet getMostRightLanelet(
-    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false) const;
+    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false,
+    const bool get_shoulder_lane = false) const;
 
   /**
    * @brief Check if same-direction lane is available at the left side of the lanelet
@@ -204,7 +207,8 @@ public:
    * @return vector of lanelet having same direction if true
    */
   lanelet::ConstLanelet getMostLeftLanelet(
-    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false) const;
+    const lanelet::ConstLanelet & lanelet, const bool enable_same_root = false,
+    const bool get_shoulder_lane = false) const;
 
   /**
    * @brief Searches the furthest linestring to the right side of the lanelet
