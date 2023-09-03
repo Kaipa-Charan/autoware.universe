@@ -320,15 +320,16 @@ bool GoalPlannerModule::isExecutionRequested() const
   // if goal modification is not allowed
   // 1) goal_pose is in current_lanes, plan path to the original fixed goal
   // 2) goal_pose is NOT in current_lanes, do not execute goal_planner
-  if (!goal_planner_utils::isAllowedGoalModification(route_handler, left_side_parking_)) {
+  if (!goal_planner_utils::isAllowedGoalModification(route_handler)) {
     return goal_is_in_current_lanes;
   }
 
   // if (A) or (B) is met execute pull over
   // (A) target lane is `road` and same to the current lanes
   // (B) target lane is `road_shoulder` and neighboring to the current lanes
-  const lanelet::ConstLanelets pull_over_lanes =
-    goal_planner_utils::getPullOverLanes(*(route_handler), left_side_parking_);
+  const lanelet::ConstLanelets pull_over_lanes = goal_planner_utils::getPullOverLanes(
+    *(route_handler), left_side_parking_, parameters_->backward_goal_search_length,
+    parameters_->forward_goal_search_length);
   lanelet::ConstLanelet target_lane{};
   lanelet::utils::query::getClosestLanelet(pull_over_lanes, goal_pose, &target_lane);
   if (!isCrossingPossible(current_lane, target_lane)) {
@@ -359,8 +360,9 @@ double GoalPlannerModule::calcModuleRequestLength() const
 
 Pose GoalPlannerModule::calcRefinedGoal(const Pose & goal_pose) const
 {
-  const lanelet::ConstLanelets pull_over_lanes =
-    goal_planner_utils::getPullOverLanes(*(planner_data_->route_handler), left_side_parking_);
+  const lanelet::ConstLanelets pull_over_lanes = goal_planner_utils::getPullOverLanes(
+    *(planner_data_->route_handler), left_side_parking_, parameters_->backward_goal_search_length,
+    parameters_->forward_goal_search_length);
 
   lanelet::Lanelet closest_pull_over_lanelet{};
   lanelet::utils::query::getClosestLanelet(pull_over_lanes, goal_pose, &closest_pull_over_lanelet);
@@ -612,8 +614,9 @@ void GoalPlannerModule::setLanes()
     planner_data_, parameters_->backward_goal_search_length,
     parameters_->forward_goal_search_length,
     /*forward_only_in_route*/ false);
-  status_.pull_over_lanes =
-    goal_planner_utils::getPullOverLanes(*(planner_data_->route_handler), left_side_parking_);
+  status_.pull_over_lanes = goal_planner_utils::getPullOverLanes(
+    *(planner_data_->route_handler), left_side_parking_, parameters_->backward_goal_search_length,
+    parameters_->forward_goal_search_length);
   status_.lanes =
     utils::generateDrivableLanesWithShoulderLanes(status_.current_lanes, status_.pull_over_lanes);
 }
@@ -1543,8 +1546,9 @@ bool GoalPlannerModule::checkOriginalGoalIsInShoulder() const
   const auto & route_handler = planner_data_->route_handler;
   const Pose & goal_pose = route_handler->getGoalPose();
 
-  const lanelet::ConstLanelets pull_over_lanes =
-    goal_planner_utils::getPullOverLanes(*(route_handler), left_side_parking_);
+  const lanelet::ConstLanelets pull_over_lanes = goal_planner_utils::getPullOverLanes(
+    *(route_handler), left_side_parking_, parameters_->backward_goal_search_length,
+    parameters_->forward_goal_search_length);
   lanelet::ConstLanelet target_lane{};
   lanelet::utils::query::getClosestLanelet(pull_over_lanes, goal_pose, &target_lane);
 
