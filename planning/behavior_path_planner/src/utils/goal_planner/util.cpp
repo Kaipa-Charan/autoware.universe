@@ -61,12 +61,16 @@ lanelet::ConstLanelets getPullOverLanes(
 {
   const Pose goal_pose = route_handler.getOriginalGoalPose();
 
+  // todo(kosuke55): calculate buffer distance automatically
+  // Save the ego pose when the module is started, and use the length from that pose, etc.
+  const double backward_distance_with_buffer = backward_distance + 100;
+
   lanelet::ConstLanelet target_shoulder_lane{};
   if (route_handler::RouteHandler::getPullOverTarget(
         route_handler.getShoulderLanelets(), goal_pose, &target_shoulder_lane)) {
     // pull over on shoulder lane
     return route_handler.getShoulderLaneletSequence(
-      target_shoulder_lane, goal_pose, backward_distance, forward_distance);
+      target_shoulder_lane, goal_pose, backward_distance_with_buffer, forward_distance);
   }
 
   lanelet::ConstLanelet closest_lane{};
@@ -80,7 +84,7 @@ lanelet::ConstLanelets getPullOverLanes(
 
   constexpr bool only_route_lanes = false;
   return route_handler.getLaneletSequence(
-    outermost_lane, backward_distance, forward_distance, only_route_lanes);
+    outermost_lane, backward_distance_with_buffer, forward_distance, only_route_lanes);
 }
 
 PredictedObjects filterObjectsByLateralDistance(
@@ -184,7 +188,7 @@ bool isAllowedGoalModification(const std::shared_ptr<RouteHandler> & route_handl
 
 bool checkOriginalGoalIsInShoulder(const std::shared_ptr<RouteHandler> & route_handler)
 {
-  const Pose & goal_pose = route_handler->getGoalPose();
+  const Pose & goal_pose = route_handler->getOriginalGoalPose();
   const auto shoulder_lanes = route_handler->getShoulderLanelets();
 
   lanelet::ConstLanelet closest_shoulder_lane{};
