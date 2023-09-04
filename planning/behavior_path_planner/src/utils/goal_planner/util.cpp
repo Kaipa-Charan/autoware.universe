@@ -59,7 +59,7 @@ lanelet::ConstLanelets getPullOverLanes(
   const RouteHandler & route_handler, const bool left_side, const double backward_distance,
   const double forward_distance)
 {
-  const Pose goal_pose = route_handler.getGoalPose();
+  const Pose goal_pose = route_handler.getOriginalGoalPose();
 
   lanelet::ConstLanelet target_shoulder_lane{};
   if (route_handler::RouteHandler::getPullOverTarget(
