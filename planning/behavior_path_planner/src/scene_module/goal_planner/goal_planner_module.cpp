@@ -316,10 +316,9 @@ bool GoalPlannerModule::isExecutionRequested() const
   // if goal arc coordinates can be calculated, check if goal is in request_length
   const double self_to_goal_arc_length =
     utils::getSignedDistance(current_pose, goal_pose, current_lanes);
-  const double request_length =
-    goal_planner_utils::isAllowedGoalModification(route_handler)
-      ? calcModuleRequestLength()
-      : parameters_->pull_over_minimum_request_length;
+  const double request_length = goal_planner_utils::isAllowedGoalModification(route_handler)
+                                  ? calcModuleRequestLength()
+                                  : parameters_->pull_over_minimum_request_length;
   if (self_to_goal_arc_length < 0.0 || self_to_goal_arc_length > request_length) {
     // if current position is far from goal or behind goal, do not execute goal_planner
     return false;
