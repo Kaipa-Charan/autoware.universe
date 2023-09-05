@@ -46,6 +46,7 @@ common/tier4_planning_rviz_plugin/** takayuki.murooka@tier4.jp yukihiro.saito@ti
 common/tier4_screen_capture_rviz_plugin/** taiki.tanaka@tier4.jp
 common/tier4_simulated_clock_rviz_plugin/** maxime.clement@tier4.jp
 common/tier4_state_rviz_plugin/** hiroki.ota@tier4.jp isamu.takagi@tier4.jp
+common/tier4_target_object_type_rviz_plugin/** takamasa.horibe@tier4.jp
 common/tier4_traffic_light_rviz_plugin/** satoshi.ota@tier4.jp
 common/tier4_vehicle_rviz_plugin/** yukihiro.saito@tier4.jp
 common/time_utils/** christopherj.ho@gmail.com shumpei.wakabayashi@tier4.jp tomoya.kimura@tier4.jp
